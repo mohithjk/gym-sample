@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Oswald:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-gym-black: #0A0A0A;
+  --color-gym-charcoal: #171717;
+  --color-gym-red: #DC2626;
+  --color-gym-red-hover: #b91c1c;
+  --color-gym-white: #FFFFFF;
+  --color-gym-gray: #9ca3af;
+  
+  --font-sans: 'Inter', sans-serif;
+  --font-heading: 'Oswald', sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-gym-black text-gym-white font-sans antialiased overflow-x-hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading uppercase tracking-wide;
+  }
+}
+
+/* Custom utilities for glassmorphism and specific effects */
+@layer utilities {
+  .glass {
+    @apply bg-gym-black/60 backdrop-blur-md border-b border-white/10;
+  }
+  
+  .text-outline {
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+    color: transparent;
+  }
+  
+  .glow-border {
+    box-shadow: 0 0 15px 2px rgba(220, 38, 38, 0.4);
+  }
+}
