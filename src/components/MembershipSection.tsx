@@ -1,33 +1,114 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import MagneticButton from './ui/MagneticButton';
+import { useAuth } from '../context/AuthContext';
 
 const MembershipSection = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
   const tiers = [
     {
+      id: 'standard',
       name: "The Standard",
-      price: "$99",
+      price: "₹4,999",
       period: "/month",
-      features: ["24/7 Access", "All cardio & free weights", "Locker room access", "1 Guest pass per month"],
+      features: [
+        "24/7 Gym Access",
+        "All Cardio & Free Weights",
+        "Locker Room Access",
+        "1 Guest Pass per Month",
+      ],
       highlight: false
     },
     {
+      id: 'athlete',
       name: "The Athlete",
-      price: "$149",
+      price: "₹7,999",
       period: "/month",
-      features: ["Everything in Standard", "Unlimited Group Classes", "Priority Booking", "1 Recovery Session/mo", "App Access"],
+      features: [
+        "Everything in Standard",
+        "Unlimited Group Classes",
+        "Priority Booking",
+        "1 Recovery Session / Month",
+        "Mobile App Access",
+      ],
       highlight: true
     },
     {
+      id: 'vip',
       name: "The VIP",
-      price: "$299",
+      price: "₹14,999",
       period: "/month",
-      features: ["Everything in Athlete", "4 Personal Training Sessions/mo", "Unlimited Recovery Rooms", "Custom Nutrition Plan", "Private Locker"],
+      features: [
+        "Everything in Athlete",
+        "4 Personal Training Sessions / Month",
+        "Unlimited Recovery Rooms",
+        "Custom Nutrition Plan",
+        "Private Locker",
+      ],
       highlight: false
     }
   ];
 
+  const handleSelectPlan = (tierId: string) => {
+    if (user) {
+      navigate(`/pay?tier=${tierId}`);
+    } else {
+      navigate(`/login?redirect=/pay?tier=${tierId}`);
+    }
+  };
+
+  // ── Paid member: show active membership card ──────────────
+  if (user?.hasPaid) {
+    return (
+      <section id="memberships" className="py-16 sm:py-24 md:py-32 bg-gym-black relative">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-gym-red text-sm font-bold tracking-[0.3em] uppercase mb-4">Membership</h2>
+            <h3 className="text-3xl sm:text-4xl md:text-6xl font-heading font-bold text-gym-white">
+              YOU'RE IN THE ELITE
+            </h3>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-2xl mx-auto bg-gym-charcoal border border-gym-red rounded-2xl p-10 text-center relative overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gym-red/5 pointer-events-none rounded-2xl" />
+
+            <div className="mb-6 flex justify-center">
+              <div className="bg-gym-red rounded-full p-4">
+                <Check className="w-10 h-10 text-white" />
+              </div>
+            </div>
+
+            <h4 className="text-3xl font-heading font-bold text-gym-white uppercase mb-2">
+              Active Member
+            </h4>
+            <p className="text-gym-red font-bold uppercase tracking-widest text-sm mb-4">
+              {user.tier || 'Ironcore Member'}
+            </p>
+            <p className="text-gym-gray mb-10">
+              Welcome back, <span className="text-gym-white font-semibold">{user.name}</span>.
+              Your membership is active and all facilities are unlocked.
+            </p>
+
+            <MagneticButton variant="primary" onClick={() => navigate('/dashboard')}>
+              Go to My Dashboard
+            </MagneticButton>
+          </motion.div>
+        </div>
+      </section>
+    );
+  }
+
+  // ── Not paid or not logged in: show plan grid ─────────────
   return (
     <section id="memberships" className="py-16 sm:py-24 md:py-32 bg-gym-black relative">
       <div className="container mx-auto px-6">
@@ -55,13 +136,13 @@ const MembershipSection = () => {
                   Most Popular
                 </div>
               )}
-              
+
               <h4 className="text-2xl font-heading font-bold text-gym-white mb-2 uppercase">{tier.name}</h4>
               <div className="flex items-baseline mb-8">
                 <span className="text-5xl font-heading font-bold text-gym-white">{tier.price}</span>
                 <span className="text-gym-gray ml-2">{tier.period}</span>
               </div>
-              
+
               <div className="flex-grow">
                 <ul className="space-y-4 mb-10">
                   {tier.features.map((feature, fIndex) => (
@@ -72,13 +153,13 @@ const MembershipSection = () => {
                   ))}
                 </ul>
               </div>
-              
-              <MagneticButton 
-                variant={tier.highlight ? 'primary' : 'secondary'} 
+
+              <MagneticButton
+                variant={tier.highlight ? 'primary' : 'secondary'}
                 className="w-full"
-                onClick={() => document.getElementById('footer')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => handleSelectPlan(tier.id)}
               >
-                Select Plan
+                {user ? 'Proceed to Payment' : 'Select Plan'}
               </MagneticButton>
             </motion.div>
           ))}

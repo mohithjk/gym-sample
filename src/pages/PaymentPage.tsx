@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, QrCode, ShieldCheck, X } from 'lucide-react';
 import MagneticButton from '../components/ui/MagneticButton';
@@ -11,14 +11,27 @@ interface PaymentPageProps {
 
 const PaymentPage = ({ isDashboardFlow = false }: PaymentPageProps) => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const { user, updateUser } = useAuth();
-  
-  // If in dashboard flow, use Auth user. Otherwise fallback to query params.
-  const userName = isDashboardFlow ? user?.name : (searchParams.get('user') || 'Guest');
-  
-  const [selectedTier, setSelectedTier] = useState<string | null>(null);
+
+  // Always use the logged-in user's name; fallback to query param for legacy flow
+  const userName = user?.name || searchParams.get('user') || 'Guest';
+
+  const [selectedTier, setSelectedTier] = useState<string | null>(searchParams.get('tier') || null);
   const [showScanner, setShowScanner] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+
+  // Already paid → send straight to dashboard
+  if (user?.hasPaid) {
+    navigate('/dashboard', { replace: true });
+    return null;
+  }
+
+  // Not logged in → send to login
+  if (!user) {
+    navigate('/login', { replace: true });
+    return null;
+  }
 
   const tiers = [
     { id: 'standard', name: "The Standard", price: "₹4,999" },
@@ -32,12 +45,15 @@ const PaymentPage = ({ isDashboardFlow = false }: PaymentPageProps) => {
   };
 
   const handleSimulatePayment = () => {
-    if (isDashboardFlow && user) {
+    // Always update user as paid regardless of flow
+    if (user) {
       updateUser({ hasPaid: true, tier: tiers.find(t => t.id === selectedTier)?.name });
     }
     setPaymentSuccess(true);
+    // After 2s success screen, redirect to their personal dashboard
     setTimeout(() => {
       setShowScanner(false);
+      navigate('/dashboard', { replace: true });
     }, 2000);
   };
 

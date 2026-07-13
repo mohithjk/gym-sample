@@ -84,6 +84,29 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
+// ── Update Payment Status ─────────────────────────────────
+app.patch('/api/users/:id/payment', async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) return res.status(401).json({ error: 'Unauthorized' });
+
+    const token = authHeader.split(' ')[1];
+    jwt.verify(token, JWT_SECRET);
+
+    const { hasPaid, tier } = req.body;
+    const { ObjectId } = await import('mongodb');
+    const users = db.collection('users');
+    await users.updateOne(
+      { _id: new ObjectId(req.params.id) },
+      { $set: { hasPaid, tier } }
+    );
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 // ── Health ────────────────────────────────────────────────
 app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
 

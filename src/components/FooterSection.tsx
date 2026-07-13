@@ -2,9 +2,11 @@ import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import MagneticButton from './ui/MagneticButton';
+import { useAuth } from '../context/AuthContext';
 
 const FooterSection = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   return (
     <footer id="footer" className="bg-gym-black relative pt-16 sm:pt-24 md:pt-32 overflow-hidden border-t border-white/10">
@@ -19,19 +21,24 @@ const FooterSection = () => {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-4xl sm:text-5xl md:text-7xl font-heading font-bold text-gym-white mb-4 sm:mb-6 uppercase tracking-tight">
-              JOIN THE <br />
-              <span className="text-gym-red">ELITE</span>
+              {user ? (
+                <>WELCOME BACK, <br /><span className="text-gym-red">{user.name?.split(' ')[0].toUpperCase()}</span></>
+              ) : (
+                <>JOIN THE <br /><span className="text-gym-red">ELITE</span></>
+              )}
             </h2>
             <p className="text-gym-gray text-lg mb-10 max-w-md">
-              Create your account to view membership plans and access your personalized portal.
+              {user
+                ? 'Access your personalized dashboard, track your progress, and manage your membership.'
+                : 'Create your account to view membership plans and access your personalized portal.'}
             </p>
-            
-            <MagneticButton 
-              variant="primary" 
+
+            <MagneticButton
+              variant="primary"
               className="mb-12"
-              onClick={() => navigate('/login')}
+              onClick={() => navigate(user ? '/dashboard' : '/login')}
             >
-              Sign Up / Login
+              {user ? 'Go to Dashboard' : 'Sign Up / Login'}
             </MagneticButton>
 
             <div className="space-y-4">

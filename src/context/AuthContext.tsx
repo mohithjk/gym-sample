@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import type { User } from '../lib/db';
+import { db } from '../lib/db';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
@@ -57,6 +58,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const updated = { ...user, ...updates };
     setUser(updated);
     localStorage.setItem('gymUser', JSON.stringify(updated));
+    // Persist to client-side DB
+    db.saveUser(updated);
+    // Persist hasPaid/tier to MongoDB via server so it survives re-login
+    if ('hasPaid' in updates || 'tier' in updates) {
+      const token = localStorage.getItem('token');
+      if (token) {
+        fetch(`${API}/api/users/${updated.id}/payment`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+          body: JSON.stringify({ hasPaid: updated.hasPaid, tier: updated.tier }),
+        }).catch(console.error);
+      }
+    }
   };
 
   return (

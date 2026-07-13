@@ -4,6 +4,7 @@ import HeroSection from '../components/HeroSection';
 import FacilitySection from '../components/FacilitySection';
 import CoachesSection from '../components/CoachesSection';
 import WeeklyScheduleSection from '../components/WeeklyScheduleSection';
+import MembershipSection from '../components/MembershipSection';
 import BulletinSection from '../components/BulletinSection';
 import FooterSection from '../components/FooterSection';
 
@@ -19,6 +20,8 @@ function Home() {
         <FacilitySection />
         <CoachesSection />
         <WeeklyScheduleSection />
+
+        <MembershipSection />
 
         <BulletinSection />
       </main>

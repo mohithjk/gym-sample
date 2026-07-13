@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Dumbbell, ArrowRight, ArrowLeft, AlertCircle, Loader2 } from 'lucide-react';
@@ -15,6 +15,8 @@ const LoginPage = () => {
 
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get('redirect') || '/';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,7 +29,7 @@ const LoginPage = () => {
     if (result.error) {
       setError(result.error);
     } else {
-      navigate('/dashboard');
+      navigate(redirectTo);
     }
   };
 
