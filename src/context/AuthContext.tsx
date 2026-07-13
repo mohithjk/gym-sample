@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import type { User } from '../lib/db';
 import { db } from '../lib/db';
 
-const API = import.meta.env.VITE_API_URL ?? '';
+const API = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
 interface AuthContextType {
   user: User | null;

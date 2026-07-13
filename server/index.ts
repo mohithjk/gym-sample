@@ -5,12 +5,16 @@ import jwt from 'jsonwebtoken';
 import { MongoClient } from 'mongodb';
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 app.use(express.json());
 
-const MONGO_URI = process.env.VITE_MONGO_URI || process.env.mongodb || '';
+const MONGO_URI = process.env.VITE_MONGO_URI || process.env.MONGO_URI || '';
 const JWT_SECRET = process.env.JWT_SECRET || 'ironcore-secret-key';
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 let db: any;
 
