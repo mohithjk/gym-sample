@@ -26,10 +26,16 @@ const HeroSection = () => {
 
       {/* Content */}
       <div className="relative z-20 container mx-auto px-4 sm:px-6 flex flex-col items-center text-center mt-16 sm:mt-20">
-        <SplitText 
-          text="REDEFINE YOUR LIMITS" 
-          className="text-4xl sm:text-6xl md:text-8xl lg:text-[10rem] font-heading font-bold text-gym-white mb-4 sm:mb-6 leading-none tracking-tighter"
-        />
+        <div className="flex flex-col items-center mb-4 sm:mb-6 leading-none tracking-tighter">
+          <SplitText
+            text="REDEFINE"
+            className="text-4xl sm:text-6xl md:text-8xl lg:text-[10rem] font-heading font-bold text-gym-red leading-none tracking-tighter"
+          />
+          <SplitText
+            text="YOUR LIMITS"
+            className="text-4xl sm:text-6xl md:text-8xl lg:text-[10rem] font-heading font-bold text-gym-white leading-none tracking-tighter"
+          />
+        </div>
         
         <motion.p
           initial={{ opacity: 0, y: 30 }}
