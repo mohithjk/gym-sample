@@ -31,7 +31,7 @@ const MagneticButton: React.FC<MagneticButtonProps> = ({
     setPosition({ x: 0, y: 0 });
   };
 
-  const baseStyles = "relative px-8 py-4 uppercase font-heading font-bold text-lg tracking-wider transition-colors duration-300 overflow-hidden group z-10";
+  const baseStyles = "relative px-6 sm:px-8 py-3 sm:py-4 uppercase font-heading font-bold text-base sm:text-lg tracking-wider transition-colors duration-300 overflow-hidden group z-10 rounded-xl";
   const variants = {
     primary: "bg-gym-red text-gym-white hover:bg-gym-red-hover",
     secondary: "border-2 border-gym-red text-gym-red hover:bg-gym-red hover:text-gym-white",

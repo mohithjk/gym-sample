@@ -25,17 +25,17 @@ const HeroSection = () => {
       </motion.div>
 
       {/* Content */}
-      <div className="relative z-20 container mx-auto px-6 flex flex-col items-center text-center mt-20">
+      <div className="relative z-20 container mx-auto px-4 sm:px-6 flex flex-col items-center text-center mt-16 sm:mt-20">
         <SplitText 
           text="REDEFINE YOUR LIMITS" 
-          className="text-6xl md:text-8xl lg:text-[10rem] font-heading font-bold text-gym-white mb-6 leading-none tracking-tighter"
+          className="text-4xl sm:text-6xl md:text-8xl lg:text-[10rem] font-heading font-bold text-gym-white mb-4 sm:mb-6 leading-none tracking-tighter"
         />
         
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="text-lg md:text-2xl text-gym-white/80 max-w-2xl mb-12 font-sans font-light"
+          className="text-base sm:text-lg md:text-2xl text-gym-white/80 max-w-2xl mb-8 sm:mb-12 font-sans font-light px-2"
         >
           Elite coaching, state-of-the-art equipment, and an exclusive community.
         </motion.p>
@@ -44,16 +44,18 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1 }}
-          className="flex flex-col sm:flex-row gap-6"
+          className="flex flex-col sm:flex-row gap-4 sm:gap-6 w-full sm:w-auto px-4 sm:px-0"
         >
           <MagneticButton 
             variant="primary"
+            className="w-full sm:w-auto"
             onClick={() => navigate('/dashboard')}
           >
             View Memberships
           </MagneticButton>
           <MagneticButton 
             variant="secondary"
+            className="w-full sm:w-auto"
             onClick={() => document.getElementById('coaches')?.scrollIntoView({ behavior: 'smooth' })}
           >
             Meet the Coaches

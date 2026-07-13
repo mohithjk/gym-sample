@@ -1,9 +1,7 @@
 import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const CoachesSection = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  
   const coaches = [
     {
       name: "Marcus Vance",
@@ -31,44 +29,52 @@ const CoachesSection = () => {
     }
   ];
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
+  // Duplicate coaches for seamless infinite loop
+  const allCoaches = [...coaches, ...coaches];
 
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]);
+  // Smooth continuous auto-scroll — runs indefinitely (24/7)
+  const DURATION_SECONDS = 40;
 
   return (
-    <section id="coaches" ref={containerRef} className="py-32 bg-gym-charcoal overflow-hidden">
+    <section id="coaches" className="py-16 sm:py-24 md:py-32 bg-gym-charcoal overflow-hidden">
       <div className="container mx-auto px-6 mb-16">
         <h2 className="text-gym-red text-sm font-bold tracking-[0.3em] uppercase mb-4">Elite Coaching</h2>
-        <h3 className="text-4xl md:text-6xl font-heading font-bold text-gym-white">
+        <h3 className="text-3xl sm:text-4xl md:text-6xl font-heading font-bold text-gym-white">
           MEET YOUR MAKERS
         </h3>
       </div>
 
       <div className="w-full relative">
-        <motion.div 
-          style={{ x }}
-          className="flex gap-8 px-6 md:px-20 w-[150vw] md:w-[120vw]"
+        <motion.div
+          className="flex gap-8 px-6"
+          animate={{ x: [0, "-50%"] }}
+          transition={{
+            x: {
+              repeat: Infinity,
+              repeatType: "loop",
+              duration: DURATION_SECONDS,
+              ease: "linear",
+            },
+          }}
+          style={{ width: "max-content" }}
         >
-          {coaches.map((coach, index) => (
-            <div 
-              key={index} 
-              className="relative w-80 md:w-96 h-[30rem] md:h-[35rem] shrink-0 group overflow-hidden"
+          {allCoaches.map((coach, index) => (
+            <div
+              key={index}
+              className="relative w-64 sm:w-80 md:w-96 h-[24rem] sm:h-[30rem] md:h-[35rem] shrink-0 group overflow-hidden rounded-2xl"
             >
               <div className="absolute inset-0 bg-gym-black/40 group-hover:bg-transparent transition-colors duration-500 z-10" />
-              
-              <img 
-                src={coach.image} 
-                alt={coach.name} 
+
+              <img
+                src={coach.image}
+                alt={coach.name}
                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
               />
-              
+
               <div className="absolute inset-0 bg-gradient-to-t from-gym-black via-gym-black/50 to-transparent z-20 flex flex-col justify-end p-8">
                 <p className="text-gym-red font-bold uppercase tracking-widest text-sm mb-2">{coach.specialty}</p>
                 <h4 className="text-3xl font-heading font-bold text-gym-white mb-2">{coach.name}</h4>
-                
+
                 <div className="h-0 opacity-0 group-hover:h-auto group-hover:opacity-100 transition-all duration-500 overflow-hidden">
                   <p className="text-gym-gray font-light mt-4">
                     {coach.bio}

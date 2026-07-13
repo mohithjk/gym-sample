@@ -38,7 +38,7 @@ const FacilitySection = () => {
   };
 
   return (
-    <section id="facility" className="py-32 bg-gym-black relative">
+    <section id="facility" className="py-16 sm:py-24 md:py-32 bg-gym-black relative">
       <div className="container mx-auto px-6">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
@@ -48,7 +48,7 @@ const FacilitySection = () => {
           className="max-w-4xl mx-auto text-center mb-20"
         >
           <h2 className="text-gym-red text-sm font-bold tracking-[0.3em] uppercase mb-4">The Facility</h2>
-          <h3 className="text-4xl md:text-6xl font-heading font-bold text-gym-white mb-8">
+          <h3 className="text-3xl sm:text-4xl md:text-6xl font-heading font-bold text-gym-white mb-8">
             MORE THAN A GYM. <br />
             <span className="text-outline">IT'S A MANIFESTO.</span>
           </h3>
@@ -68,7 +68,7 @@ const FacilitySection = () => {
             <motion.div 
               key={index}
               variants={itemVariants}
-              className="bg-gym-charcoal border border-white/5 p-10 hover:border-gym-red/50 transition-colors duration-500 group"
+              className="bg-gym-charcoal border border-white/5 p-6 sm:p-10 rounded-2xl hover:border-gym-red/50 transition-colors duration-500 group"
             >
               <div className="transform group-hover:scale-110 group-hover:-translate-y-2 transition-transform duration-500 origin-bottom-left">
                 {feature.icon}

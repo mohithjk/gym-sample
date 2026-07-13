@@ -51,7 +51,7 @@ const Navbar = () => {
             ))}
             <button 
               onClick={() => navigate('/dashboard')}
-              className="bg-gym-red text-gym-white px-6 py-2 uppercase font-heading font-bold tracking-wider hover:bg-gym-white hover:text-gym-black transition-colors duration-300"
+              className="bg-gym-red text-gym-white px-6 py-2 uppercase font-heading font-bold tracking-wider rounded-lg hover:bg-gym-white hover:text-gym-black transition-colors duration-300"
             >
               Join Now
             </button>
@@ -96,7 +96,7 @@ const Navbar = () => {
                   setMobileMenuOpen(false);
                   navigate('/dashboard');
                 }}
-                className="mt-8 bg-gym-red text-gym-white px-8 py-4 uppercase font-heading font-bold tracking-wider text-xl hover:bg-gym-white hover:text-gym-black transition-colors duration-300"
+                className="mt-8 bg-gym-red text-gym-white px-8 py-4 uppercase font-heading font-bold tracking-wider text-xl rounded-xl hover:bg-gym-white hover:text-gym-black transition-colors duration-300"
               >
                 Join Now
               </button>

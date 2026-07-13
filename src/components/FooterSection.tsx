@@ -7,8 +7,8 @@ const FooterSection = () => {
   const navigate = useNavigate();
 
   return (
-    <footer id="footer" className="bg-gym-black relative pt-32 overflow-hidden border-t border-white/10">
-      <div className="container mx-auto px-6 mb-20 relative z-10">
+    <footer id="footer" className="bg-gym-black relative pt-16 sm:pt-24 md:pt-32 overflow-hidden border-t border-white/10">
+      <div className="container mx-auto px-4 sm:px-6 mb-12 sm:mb-20 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
           
           {/* CTA & Contact */}
@@ -18,7 +18,7 @@ const FooterSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-5xl md:text-7xl font-heading font-bold text-gym-white mb-6 uppercase tracking-tight">
+            <h2 className="text-4xl sm:text-5xl md:text-7xl font-heading font-bold text-gym-white mb-4 sm:mb-6 uppercase tracking-tight">
               JOIN THE <br />
               <span className="text-gym-red">ELITE</span>
             </h2>
@@ -56,7 +56,7 @@ const FooterSection = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="w-full h-[500px] bg-gym-charcoal border border-white/5 relative group overflow-hidden"
+            className="w-full h-[280px] sm:h-[380px] md:h-[500px] bg-gym-charcoal border border-white/5 relative group overflow-hidden rounded-2xl"
           >
             <div className="absolute inset-0 bg-gym-black/40 group-hover:bg-transparent transition-colors duration-500 z-10 pointer-events-none" />
             <iframe 

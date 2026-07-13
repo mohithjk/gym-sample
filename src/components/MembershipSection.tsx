@@ -29,11 +29,11 @@ const MembershipSection = () => {
   ];
 
   return (
-    <section id="memberships" className="py-32 bg-gym-black relative">
+    <section id="memberships" className="py-16 sm:py-24 md:py-32 bg-gym-black relative">
       <div className="container mx-auto px-6">
         <div className="text-center mb-20">
           <h2 className="text-gym-red text-sm font-bold tracking-[0.3em] uppercase mb-4">Memberships</h2>
-          <h3 className="text-4xl md:text-6xl font-heading font-bold text-gym-white">
+          <h3 className="text-3xl sm:text-4xl md:text-6xl font-heading font-bold text-gym-white">
             CHOOSE YOUR ARSENAL
           </h3>
         </div>
@@ -46,12 +46,12 @@ const MembershipSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: index * 0.2 }}
-              className={`relative bg-gym-charcoal p-10 flex flex-col h-full ${
-                tier.highlight ? 'glow-border z-10 md:-scale-y-105 md:scale-x-105 border border-gym-red' : 'border border-white/5'
+              className={`relative bg-gym-charcoal p-6 sm:p-10 flex flex-col h-full rounded-2xl ${
+                tier.highlight ? 'glow-border z-10 border border-gym-red' : 'border border-white/5'
               }`}
             >
               {tier.highlight && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gym-red text-gym-white px-4 py-1 text-xs font-bold uppercase tracking-widest">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gym-red text-gym-white px-4 py-1 text-xs font-bold uppercase tracking-widest rounded-full">
                   Most Popular
                 </div>
               )}
