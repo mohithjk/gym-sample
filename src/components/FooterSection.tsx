@@ -60,7 +60,7 @@ const FooterSection = () => {
           >
             <div className="absolute inset-0 bg-gym-black/40 group-hover:bg-transparent transition-colors duration-500 z-10 pointer-events-none" />
             <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d111627.87676646844!2d-118.42398555208681!3d33.9168697669527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2b48ea5f061db%3A0x1bb190bb8555eb3b!2sGold&#39;s%20Gym!5e0!3m2!1sen!2sus!4v1714493393962!5m2!1sen!2sus" 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62556.66550093083!2d74.8306!3d12.9141!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba359a8e9ade1b3%3A0xf9e39810d99e0f04!2sMangalore%2C%20Karnataka%2C%20India!5e0!3m2!1sen!2sin!4v1714493393962!5m2!1sen!2sin" 
               width="100%" 
               height="100%" 
               style={{ border: 0, filter: 'grayscale(1) invert(0.9) contrast(1.2)' }} 

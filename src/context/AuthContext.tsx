@@ -1,10 +1,11 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import type { User } from '../lib/db';
-import { db } from '../lib/db';
+
+const API = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
 interface AuthContextType {
   user: User | null;
-  login: (email: string, name?: string) => void;
+  login: (email: string, password: string, name?: string, isSignup?: boolean) => Promise<{ error?: string }>;
   logout: () => void;
   updateUser: (updates: Partial<User>) => void;
 }
@@ -15,44 +16,47 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const storedUserId = localStorage.getItem('currentUserId');
-    if (storedUserId) {
-      const users = db.getUsers();
-      const foundUser = users.find(u => u.id === storedUserId);
-      if (foundUser) setUser(foundUser);
+    const token = localStorage.getItem('token');
+    const stored = localStorage.getItem('gymUser');
+    if (token && stored) {
+      try { setUser(JSON.parse(stored)); } catch {}
     }
   }, []);
 
-  const login = (email: string, name: string = 'User') => {
-    const users = db.getUsers();
-    let foundUser = users.find(u => u.email === email);
-    
-    if (!foundUser) {
-      // Auto-signup for demo purposes
-      foundUser = {
-        id: Date.now().toString(),
-        name,
-        email,
-        role: email === 'admin@ironcore.com' ? 'admin' : 'user',
-        hasPaid: email === 'admin@ironcore.com'
-      };
-      db.saveUser(foundUser);
+  const login = async (email: string, password: string, name = 'User', isSignup = false): Promise<{ error?: string }> => {
+    try {
+      const endpoint = isSignup ? '/api/register' : '/api/login';
+      const body = isSignup ? { name, email, password } : { email, password };
+
+      const res = await fetch(`${API}${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+
+      const data = await res.json();
+      if (!res.ok) return { error: data.error || 'Something went wrong' };
+
+      setUser(data.user);
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('gymUser', JSON.stringify(data.user));
+      return {};
+    } catch {
+      return { error: 'Could not reach the server. Please try again.' };
     }
-    
-    setUser(foundUser);
-    localStorage.setItem('currentUserId', foundUser.id);
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('currentUserId');
+    localStorage.removeItem('token');
+    localStorage.removeItem('gymUser');
   };
 
   const updateUser = (updates: Partial<User>) => {
     if (!user) return;
-    const updatedUser = { ...user, ...updates };
-    setUser(updatedUser);
-    db.saveUser(updatedUser);
+    const updated = { ...user, ...updates };
+    setUser(updated);
+    localStorage.setItem('gymUser', JSON.stringify(updated));
   };
 
   return (
@@ -64,8 +68,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
+  if (context === undefined) throw new Error('useAuth must be used within an AuthProvider');
   return context;
 };
