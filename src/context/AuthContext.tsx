@@ -2,7 +2,6 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import type { User } from '../lib/db';
 import { db } from '../lib/db';
 
-const API = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
 interface AuthContextType {
   user: User | null;
@@ -29,7 +28,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const endpoint = isSignup ? '/api/register' : '/api/login';
       const body = isSignup ? { name, email, password } : { email, password };
 
-      const res = await fetch(`${API}${endpoint}`, {
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
@@ -64,7 +63,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if ('hasPaid' in updates || 'tier' in updates) {
       const token = localStorage.getItem('token');
       if (token) {
-        fetch(`${API}/api/users/${updated.id}/payment`, {
+        fetch(`/api/users/${updated.id}/payment`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',

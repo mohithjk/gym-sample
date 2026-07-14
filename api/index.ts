@@ -1,16 +1,9 @@
 import express from 'express';
-import cors from 'cors';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { MongoClient, ObjectId } from 'mongodb';
 
 const app = express();
-
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-}));
 app.use(express.json());
 
 const MONGO_URI = process.env.VITE_MONGO_URI || process.env.MONGO_URI || '';
